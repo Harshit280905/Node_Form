@@ -13,7 +13,7 @@
       }
     
       body {
-        background: #e3f6f5; /* Light blue background */
+        background: #e3f6f5;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -48,7 +48,7 @@
       }
     
       a {
-        color: #47a1c9; /* Blue link color */
+        color: #47a1c9;
         font-size: 14px;
         text-decoration: none;
         margin: 15px 0;
@@ -56,8 +56,8 @@
     
       button {
         border-radius: 20px;
-        border: 1px solid #47a1c9; /* Button border matches the blue theme */
-        background-color: #4caf50; /* Green background */
+        border: 1px solid #47a1c9;
+        background-color: #4caf50;
         color: #ffffff;
         font-size: 12px;
         font-weight: bold;
@@ -78,11 +78,11 @@
       button.ghost {
         background-color: transparent;
         border-color: #ffffff;
-        color: #ffffff; /* White text for ghost button */
+        color: #ffffff;
       }
     
       form {
-        background-color: #f0f8ff; /* Pale blue form background */
+        background-color: #f0f8ff;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -90,17 +90,17 @@
         padding: 0 50px;
         height: 100%;
         text-align: center;
-        border-radius: 8px; /* Soft rounded corners */
+        border-radius: 8px;
       }
     
       input {
-        background-color: #e7f7ff; /* Light blue input background */
+        background-color: #e7f7ff;
         border: none;
         padding: 12px 15px;
         margin: 8px 0;
         width: 100%;
-        height: 40px; /* Slightly increased height */
-        border-radius: 5px; /* Rounded input */
+        height: 40px;
+        border-radius: 5px;
       }
     
       .container {
@@ -172,7 +172,7 @@
       }
     
       .overlay {
-        background: linear-gradient(to right, #47a1c9, #65d3e5); /* New blue gradient background */
+        background: linear-gradient(to right, #47a1c9, #65d3e5);
         color: #ffffff;
         position: relative;
         left: -100%;
@@ -235,11 +235,11 @@
       }
     
       footer i {
-        color: #ff6347; /* Tomato color for more vibrant accent */
+        color: #ff6347;
       }
     
       footer a {
-        color: #47a1c9; /* Matching the blue theme */
+        color: #47a1c9;
         text-decoration: none;
       }
     
@@ -281,7 +281,6 @@
   <body>
     <h2>Registration and Signup Page Made using HTML CSS and Node JS</h2>
     <div class="container" id="container">
-      <!-- Sign Up Form -->
       <div class="form-container sign-up-container">
         <form id="signupForm">
           <h1>Create Account</h1>
@@ -324,7 +323,6 @@
         </form>
       </div>
 
-      <!-- Sign In Form -->
       <div class="form-container sign-in-container">
         <form id="signinForm">
           <h1>Sign in</h1>
@@ -340,7 +338,6 @@
         </form>
       </div>
 
-      <!-- Overlay Panel for the Forms -->
       <div class="overlay-container">
         <div class="overlay">
           <div class="overlay-panel overlay-left">
@@ -366,40 +363,34 @@
       const signupForm = document.getElementById("signupForm");
       const signinForm = document.getElementById("signinForm");
 
-      // Switch to sign-up form when clicking sign-up button
       signUpButton.addEventListener("click", () => {
         container.classList.add("right-panel-active");
       });
 
-      // Switch to sign-in form when clicking sign-in button
       signInButton.addEventListener("click", () => {
         container.classList.remove("right-panel-active");
       });
 
-      // Handle signup form submission
       signupForm.addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent default form submission
+        event.preventDefault();
 
-        // Prepare form data to be sent via AJAX
         const formData = new FormData(signupForm);
         const data = new URLSearchParams();
         formData.forEach((value, key) => {
           data.append(key, value);
         });
 
-        // Send the form data using fetch
         fetch("/signup", {
           method: "POST",
           body: data,
         })
           .then((response) => {
             if (response.ok) {
-              // Show success alert and switch to sign-in form
               alert("Registration successful! Please sign in now.");
               container.classList.add("right-panel-active");
             } else {
               response.text().then((text) => {
-                alert(text); // Show alert if there was an error (e.g., email already exists)
+                alert(text);
               });
             }
           })
@@ -408,35 +399,29 @@
           });
       });
 
-      // Handle signin form submission
       signinForm.addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent default form submission
+        event.preventDefault();
 
-        // Prepare form data to be sent via AJAX
         const formData = new FormData(signinForm);
         const data = new URLSearchParams();
         formData.forEach((value, key) => {
           data.append(key, value);
         });
 
-        // Send the form data using fetch
         fetch("/signin", {
           method: "POST",
           body: data,
         })
           .then((response) => {
             if (response.ok) {
-              // Successfully logged in, show user data in an alert
-              return response.text(); // Get the response text with user data
+              return response.text();
             } else {
-              // If invalid credentials, show alert
               alert("Invalid credentials. Please try again.");
             }
           })
           .then((data) => {
             if (data) {
-              // Successfully logged in, display user data in an alert
-              alert(data); // Show user data in the alert
+              alert(data);
             }
           })
           .catch((error) => {
