@@ -3,7 +3,6 @@ const fs = require('fs');
 const url = require('url');
 const querystring = require('querystring');
 
-// Serve the HTML file
 const serveHTML = (res) => {
     fs.readFile('index.html', 'utf8', (err, data) => {
         if (err) {
@@ -16,7 +15,6 @@ const serveHTML = (res) => {
     });
 };
 
-// Parse user data and save it to user.json
 const saveUserData = (userData) => {
     fs.readFile('user.json', 'utf8', (err, data) => {
         let users = [];
@@ -30,16 +28,13 @@ const saveUserData = (userData) => {
     });
 };
 
-// Handle HTTP requests
 const server = http.createServer((req, res) => {
     const parsedUrl = url.parse(req.url);
     const method = req.method;
 
     if (parsedUrl.pathname === '/') {
-        // Serve the main page (signup/signin form)
         serveHTML(res);
     } else if (parsedUrl.pathname === '/signup' && method === 'POST') {
-        // Handle signup form submission
         let body = '';
         req.on('data', chunk => {
             body += chunk;
@@ -49,7 +44,6 @@ const server = http.createServer((req, res) => {
             const userData = querystring.parse(body);
             const { name, rollNumber, dob, email, gender, password, address } = userData;
 
-            // Check if email already exists
             fs.readFile('user.json', 'utf8', (err, data) => {
                 if (err) {
                     res.writeHead(500, { 'Content-Type': 'text/plain' });
@@ -64,7 +58,6 @@ const server = http.createServer((req, res) => {
                     res.writeHead(400, { 'Content-Type': 'text/plain' });
                     res.end('Email already registered. Please use another email.');
                 } else {
-                    // Save user data
                     const user = { name, rollNumber, dob, email, gender, password, address };
                     saveUserData(user);
                     res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -73,7 +66,6 @@ const server = http.createServer((req, res) => {
             });
         });
     } else if (parsedUrl.pathname === '/signin' && method === 'POST') {
-        // Handle signin form submission
         let body = '';
         req.on('data', chunk => {
             body += chunk;
@@ -83,7 +75,6 @@ const server = http.createServer((req, res) => {
             const credentials = querystring.parse(body);
             const { email, password } = credentials;
 
-            // Read user.json and validate login credentials
             fs.readFile('user.json', 'utf8', (err, data) => {
                 if (err) {
                     res.writeHead(500, { 'Content-Type': 'text/plain' });
@@ -110,7 +101,6 @@ const server = http.createServer((req, res) => {
     }
 });
 
-// Start the server
 const PORT = 3000;
 server.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
